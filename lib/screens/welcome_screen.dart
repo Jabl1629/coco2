@@ -77,7 +77,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, RegistrationScreen.id);
+                      Navigator.pushNamed(context, '0');
                       },
                     child: Text("Or get started without an account -->",
                         style: TextStyle(fontWeight: FontWeight.w600)),
