@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1094450716444-2etg16onpbm9i3cf0o50vpqnbptao74c.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1094450716444-2etg16onpbm9i3cf0o50vpqnbptao74c</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCVi8Hts299YkGD-mQffSs4s9mrvmBGju4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1094450716444</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>coco.jaceblackburn.coco2</string>
+	<key>PROJECT_ID</key>
+	<string>coco-e498d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>coco-e498d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1094450716444:ios:5bbde5a870509ecbd764d9</string>
+</dict>
+</plist>
