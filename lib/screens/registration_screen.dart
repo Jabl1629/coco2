@@ -1,5 +1,6 @@
 import 'package:coco2/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const id = 'registration_screen';
@@ -8,6 +9,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+
+  String email;
+  String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +32,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
               onChanged: (value) {
-                //Do something with the user input.
+                email = value;
               },
               decoration: InputDecoration(
                 hintText: 'Enter your email',
@@ -51,8 +58,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             TextField(
               onChanged: (value) {
-                //Do something with the user input.
+                password = value;
               },
+              obscureText: true,
               decoration: InputDecoration(
                 hintText: 'Enter your password',
                 contentPadding:
@@ -80,8 +88,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () {
-                    //Implement registration functionality.
+                  onPressed: ()
+                  async {
+                    try {
+                      final newUser = _auth.createUserWithEmailAndPassword(
+                          email: email, password: password);
+                      if (newUser != Null){
+                        Navigator.pushNamed(context, '0');
+                      }
+                    }
+                    catch (e){
+                      print(e);
+                    }
                   },
                   minWidth: 200.0,
                   height: 42.0,
