@@ -7,6 +7,7 @@ import 'package:coco2/screens/registration_screen.dart';
 import 'package:coco2/screens/login_screen.dart';
 import 'package:coco2/screens/top_fits.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:coco2/screens/pref_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,13 +26,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: 'welcome_screen',
+      initialRoute: 'pref_screen',
       routes: {
         '0': (context) => HomeScreen(),
         '1': (context) => TopFits(),
         '2': (context) => SearchPage(),
         '3': (context) => SettingsPage(),
 
+        'pref_screen': (context) => PrefScreen(),
         'welcome_screen': (context) => WelcomeScreen(),
         'login_screen': (context) => LoginScreen(),
         'registration_screen': (context) => RegistrationScreen()
