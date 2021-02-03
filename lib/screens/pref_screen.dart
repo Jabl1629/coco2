@@ -4,15 +4,20 @@ import 'package:coco2/screens/top_app_bar.dart';
 import 'package:coco2/screens/drag_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coco2/quick_reorder_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:coco2/controllers/current_user.dart';
 
 class PrefScreen extends StatefulWidget {
-
+  static const id = 'pref_screen';
 
   @override
   _PrefScreenState createState() => _PrefScreenState();
 }
 class _PrefScreenState extends State<PrefScreen> {
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  User loggedInUser ;
+
   List<String> items = [
   'Are Organic',
   'Are Vegan',
@@ -24,7 +29,24 @@ class _PrefScreenState extends State<PrefScreen> {
   'Offset CO2 emissions through carbon credits',
   'Commit to a year over year reduction in C02 emissions'
   ];
+
   var certIndex = Iterable<int>.generate(9).toList();
+
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async{
+    try {
+      final user = await _auth.currentUser;
+      if (user!= null) {
+        loggedInUser = user;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +102,6 @@ class _PrefScreenState extends State<PrefScreen> {
                   ],
         ),
 
-
                ),
              ),
              Text("Least Important", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -92,6 +113,10 @@ class _PrefScreenState extends State<PrefScreen> {
               elevation: 5.0,
               child: MaterialButton(
                 onPressed: () {
+                  _firestore.collection('certPrefs').add({
+                    'initPrefs': certIndex,
+                    'user': loggedInUser.email
+                  });
                   Navigator.pushNamed(context, '0');
                   print(certIndex);
                 },

@@ -1,6 +1,7 @@
 import 'package:coco2/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:coco2/screens/pref_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const id = 'registration_screen';
@@ -94,7 +95,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       final newUser = _auth.createUserWithEmailAndPassword(
                           email: email, password: password);
                       if (newUser != Null){
-                        Navigator.pushNamed(context, '0');
+                        Navigator.pushNamed(context, PrefScreen.id);
                       }
                     }
                     catch (e){

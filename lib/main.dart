@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: 'pref_screen',
+      initialRoute: 'welcome_screen',
       routes: {
         '0': (context) => HomeScreen(),
         '1': (context) => TopFits(),
