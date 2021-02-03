@@ -24,6 +24,7 @@ class _PrefScreenState extends State<PrefScreen> {
   'Offset CO2 emissions through carbon credits',
   'Commit to a year over year reduction in C02 emissions'
   ];
+  var certIndex = Iterable<int>.generate(9).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +41,13 @@ class _PrefScreenState extends State<PrefScreen> {
                  child: QuickReorderableListView(
                   onReorder: (oldIndex, newIndex){
                     setState(() {
-                      if (newIndex > oldIndex) {
-                        newIndex -= 1;
-                        ;
-                      }
                       final item = items.removeAt(oldIndex);
                       items.insert(newIndex, item);
-                      }
-                      );
+
+                      final cert = certIndex.removeAt(oldIndex);
+                      certIndex.insert(newIndex, cert);
+
+                    });
                   },
                   header: Column(
                     children: [
@@ -58,7 +58,7 @@ class _PrefScreenState extends State<PrefScreen> {
                       SizedBox(height:8),
                       Divider(height:1,thickness:2,color:Colors.green),
                       SizedBox(height:8),
-                      Text("Most Important"),
+                      Text("Most Important",style: TextStyle(fontWeight: FontWeight.bold)),
                       SizedBox(height:5)
                     ],
                   ),
@@ -76,18 +76,36 @@ class _PrefScreenState extends State<PrefScreen> {
                           selectedTileColor: Colors.grey,
                           leading: Icon(Icons.nature_people)
                     ),
-                      )
+                      ),
                   ],
         ),
 
 
                ),
              ),
-           Text("Least Important")
-           ],
+             Text("Least Important", style: TextStyle(fontWeight: FontWeight.bold)),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Material(
+              color: Colors.green,
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              elevation: 5.0,
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '0');
+                  print(certIndex);
+                },
+                minWidth: 200.0,
+                height: 42.0,
+                child: Text(
+                  'Submit'
+                ),
+              ),
+            ),
+          ),
+             ],),
+           ),
          ),
-      ),
-      ),
-    );
+      );
   }
 }
