@@ -2,6 +2,8 @@ import 'package:coco2/constants.dart';
 import 'package:coco2/screens/login_screen.dart';
 import 'package:coco2/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:coco2/screens/intro_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const id = 'welcome_screen';
@@ -33,7 +35,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ],
             ),
             SizedBox(
-              height: 48.0,
+              height: 35.0,
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -47,8 +49,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   },
                   minWidth: 200.0,
                   height: 42.0,
-                  child: Text(
-                    'Log In',
+                  child: Text('Log In',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)
                   ),
                 ),
               ),
@@ -56,7 +58,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Material(
-                color: Colors.white30,
+                color: Colors.white10,
                 borderRadius: BorderRadius.circular(30.0),
                 elevation: 5.0,
                 child: MaterialButton(
@@ -65,8 +67,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   },
                   minWidth: 200.0,
                   height: 42.0,
-                  child: Text(
-                    'Register',
+                  child: Text('Register',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)
                   ),
                 ),
               ),
@@ -77,7 +79,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '0');
+                      Navigator.pushNamed(context, IntroScreen.id);
                       },
                     child: Text("Or get started without an account -->",
                         style: TextStyle(fontWeight: FontWeight.w600)),

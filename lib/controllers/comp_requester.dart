@@ -1,34 +1,76 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:coco2/models/comp.dart';
 
-class CompRequester{
-  Future<List<Comp>> getComps() async {
-    try {
-      var response = await http.get(
-          "http://www.json-generator.com/api/json/get/ceWOeidrxe?indent=2");
-      if (200 == response.statusCode) {
-        var jsonData = json.decode(response.body);
-        List<Comp> comps = [];
-        print(jsonData);
-        for (var i in jsonData) {
-          Comp comp = Comp(
-              i["id"], i["title"], i["imageA"], i["imageB"], i["description"], i["ismen"],
-              i["category"]);
-          comps.add(comp);
-          //TODO: Update JSON with new image URLs so images A and B are different (also need to add in image B below)
-        }
-        print(comps.length);
-        return comps;
+import 'package:coco2/models/company_card.dart';
+import 'package:flutter/material.dart';
+import 'package:coco2/models/comp.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+class CompRequester extends StatelessWidget {
+  final String category;
+
+  CompRequester(this.category);
+
+  @override
+
+  Widget build(BuildContext context) {
+    CollectionReference companies = FirebaseFirestore.instance.collection('companies');
+
+    Future returnFuture() {
+      if (category == "N/A"){
+        return companies.get();
       }
-      else{
-        var comps = [];
-        return comps;
+      else {
+        return companies.where('category', isEqualTo: category).get();
       }
-    } catch (e) {
-      print(e);
     }
+
+
+    return FutureBuilder<QuerySnapshot>(
+      future: returnFuture(),
+
+      builder:
+          (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+        if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          List<DocumentSnapshot> docs = snapshot.data.docs;
+          print(docs);
+          var length = docs.length;
+          List<Comp> comps = [];
+          var list = [for(var i=0; i<length; i+=1) i];
+          for (var id in list){
+            Map<dynamic,dynamic> data = docs[id].data();
+            Comp comp = Comp(
+              id: id,
+              title: data['title'],
+              imageA: data['imageA'],
+              imageB: data['imageB'],
+              gender: data['gender'],
+              category: data['category'],
+              description: data['description'],
+              cocoScore: data['cocoScore'].toString()
+            );
+            comps.add(comp);
+            print(comp.title);
+          }
+
+
+            return ListView.separated(
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(height: 1);
+              },
+              itemCount: comps.length,
+               itemBuilder: (BuildContext context, int id) {
+                 return CompanyCard(id: id, inputComps: comps);
+               },
+           );
+        }
+
+        return SpinKitCubeGrid(color:Colors.green,size: 100);
+      },
+    );
   }
-  }
+}

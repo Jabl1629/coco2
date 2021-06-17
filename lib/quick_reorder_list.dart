@@ -201,7 +201,7 @@ class _ReorderableListContentState extends State<_ReorderableListContent> with T
   //
   // This value is used when the extents haven't yet been calculated from
   // the currently dragging widget, such as when it first builds.
-  static const double _defaultDropAreaExtent = 100.0;
+  static const double _defaultDropAreaExtent = 5.0;
 
   // The additional margin to place around a computed drop area.
   static const double _dropAreaMargin = 8.0;
@@ -211,7 +211,7 @@ class _ReorderableListContentState extends State<_ReorderableListContent> with T
 
   // How long an animation to scroll to an off-screen element in the
   // list takes.
-  static const Duration _scrollAnimationDuration = Duration(milliseconds: 200);
+  static const Duration _scrollAnimationDuration = Duration(milliseconds: 300);
 
   // Controls scrolls and measures scroll progress.
   ScrollController _scrollController;

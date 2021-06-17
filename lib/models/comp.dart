@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart' show Color;
-
 
 class Comp {
   final int id;
@@ -7,8 +5,9 @@ class Comp {
   final String imageA;
   final String imageB;
   final String description;
-  final bool ismen;
+  final String gender;
   final String category;
+  final String cocoScore;
 
-  Comp(this.id,this.title,this.imageA, this.imageB, this.description,this.ismen,this.category);
+  Comp({this.id,this.title,this.imageA, this.imageB, this.description,this.gender,this.category,this.cocoScore});
 }

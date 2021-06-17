@@ -15,8 +15,6 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
 
-
-
   @override
   Widget build(BuildContext context) {
     int selectedIndex = widget.startIndex;
@@ -39,13 +37,13 @@ class _NavBarState extends State<NavBar> {
         },
         items: [
           FFNavigationBarItem(
-            iconData: Icons.home,
-            label: 'Home',
-          ),
-          FFNavigationBarItem(
             iconData: Icons.show_chart_outlined ,
             label: 'Top Fits',
             selectedBackgroundColor: Colors.green,
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.category,
+            label: 'Explore',
           ),
           FFNavigationBarItem(
             iconData: Icons.search,

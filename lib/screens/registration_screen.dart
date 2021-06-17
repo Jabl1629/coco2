@@ -1,7 +1,7 @@
 import 'package:coco2/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:coco2/screens/pref_screen.dart';
+import 'package:coco2/screens/intro_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const id = 'registration_screen';
@@ -85,17 +85,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Material(
-                color: Colors.white38,
+                color: Colors.white24,
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: ()
                   async {
                     try {
-                      final newUser = _auth.createUserWithEmailAndPassword(
+                      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
                           email: email, password: password);
-                      if (newUser != Null){
-                        Navigator.pushNamed(context, PrefScreen.id);
+                      if (userCredential != null){
+                        Navigator.pushNamed(context, IntroScreen.id);
                       }
                     }
                     catch (e){

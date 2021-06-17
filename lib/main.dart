@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coco2/screens/home_screen.dart';
+import 'package:coco2/screens/category_view.dart';
 import 'package:coco2/screens/search_page.dart';
 import 'package:coco2/screens/settings_page.dart';
 import 'package:coco2/screens/welcome_screen.dart';
@@ -8,6 +8,8 @@ import 'package:coco2/screens/login_screen.dart';
 import 'package:coco2/screens/top_fits.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:coco2/screens/pref_screen.dart';
+import 'package:coco2/screens/intro_screen.dart';
+import 'package:coco2/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,15 +30,18 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: 'welcome_screen',
       routes: {
-        '0': (context) => HomeScreen(),
-        '1': (context) => TopFits(),
+        '0': (context) => TopFits(),
+        '1': (context) => CategoryView(),
         '2': (context) => SearchPage(),
         '3': (context) => SettingsPage(),
 
         'pref_screen': (context) => PrefScreen(),
         'welcome_screen': (context) => WelcomeScreen(),
         'login_screen': (context) => LoginScreen(),
-        'registration_screen': (context) => RegistrationScreen()
+        'registration_screen': (context) => RegistrationScreen(),
+        'intro_screen': (context) => IntroScreen(),
+        'splash_screen': (context) => SplashScreen()
+
       }
     );
   }

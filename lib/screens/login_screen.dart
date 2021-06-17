@@ -10,11 +10,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  final _auth = FirebaseAuth.instance;
   String email;
   String password;
 
-  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -96,12 +95,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: MaterialButton(
                   onPressed: () async {
                     try {
-                      final existUser = _auth.signInWithEmailAndPassword(email: email, password: password);
-                      if (existUser != Null){
+                      UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+                      if (userCredential != null) {
                         Navigator.pushNamed(context, '0');
                       }
                     }
-                    catch (e){
+                    catch (e) {
                       print(e);
                     }
                   },

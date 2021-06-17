@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart' ;
 import 'package:coco2/constants.dart';
-import 'package:coco2/screens/top_app_bar.dart';
-import 'package:coco2/screens/drag_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coco2/quick_reorder_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:coco2/controllers/current_user.dart';
+import 'package:coco2/models/pref.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:coco2/screens/splash_screen.dart';
+import 'package:coco2/screens/top_fits.dart';
 
 class PrefScreen extends StatefulWidget {
   static const id = 'pref_screen';
@@ -18,17 +19,19 @@ class _PrefScreenState extends State<PrefScreen> {
   final _auth = FirebaseAuth.instance;
   User loggedInUser ;
 
-  List<String> items = [
-  'Are Organic',
-  'Are Vegan',
-  'Are made with recycled materials',
-  'Are "Fair Trade" Certified',
-  'Are Animal Cruelty Free',
-  'Are certified non-toxic',
-  'Donate a portion of proceeds to developing communities',
-  'Offset CO2 emissions through carbon credits',
-  'Commit to a year over year reduction in C02 emissions'
+  List<Pref> items = [
+    Pref('Are Organic', kOrganic,0),
+    Pref('Are Vegan', kVegan,1),
+    Pref('Are made with recycled materials', kRecycled,2),
+    Pref('Are animal cruelty free', kAnimalCruelty,3),
+    Pref('Are certified non-toxic', kNonToxic,4),
+    Pref('Donate a portion of proceeds', kPercentage,5),
+    Pref('Offset CO2 emissions through carbon credits', kCarbonNeutral,6),
+    Pref('Reduce CO2 emissions year over year', kCarbonReduction,7),
+    Pref('Are fair trade certified', kFairTrade ,8)
   ];
+
+  var cardIndex = 0;
 
   var certIndex = Iterable<int>.generate(9).toList();
 
@@ -51,62 +54,86 @@ class _PrefScreenState extends State<PrefScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopAppBar(leftIcon: kBackIcon, title: "Coco Home", rightIcon: kSearchIcon),
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        toolbarHeight: 90,
+        actions: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left:40,right:40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                      "When selecting products, it is most important that they:",
+                      textAlign: TextAlign.center,
+                      style:GoogleFonts.montserrat(
+                          textStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.white,fontStyle: FontStyle.italic))
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+        automaticallyImplyLeading: false,
+      ),
       body: Container(
         child: SafeArea(
          child: Column(
            children: [
-             SizedBox(height: 20),
              Expanded(
                child: Padding(
                  padding: const EdgeInsets.all(8.0),
                  child: QuickReorderableListView(
                   onReorder: (oldIndex, newIndex){
                     setState(() {
+                      print(certIndex);
+                      cardIndex = 0;
+
+                      if (newIndex > oldIndex) {
+                        newIndex -= 1;
+                      }
                       final item = items.removeAt(oldIndex);
                       items.insert(newIndex, item);
-
                       final cert = certIndex.removeAt(oldIndex);
                       certIndex.insert(newIndex, cert);
-
                     });
                   },
-                  header: Column(
-                    children: [
-                      Text(
-                          "It is most important to me that products I buy:",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.green)),
-                      SizedBox(height:8),
-                      Divider(height:1,thickness:2,color:Colors.green),
-                      SizedBox(height:8),
-                      Text("Most Important",style: TextStyle(fontWeight: FontWeight.bold)),
-                      SizedBox(height:5)
-                    ],
-                  ),
                   children: [
                     for (final item in items)
                       Card(
                         key: ValueKey(item),
                         child: ListTile(
                           title: Text(
-                              item,
+                              item.title,
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold) ),
-                          tileColor: Colors.green.shade100,
+                          tileColor: Colors.white30,
                           enabled: true,
                           selectedTileColor: Colors.grey,
-                          leading: Icon(Icons.nature_people)
-                    ),
+                          trailing: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(child: Image.asset(item.prefIcon),height: 40),
+                            ],
+                          ),
+                          leading: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("#"+ (cardIndex += 1).toString(), style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+                            ],
+                            ),
+                          ),
                       ),
                   ],
         ),
-
                ),
              ),
-             Text("Least Important", style: TextStyle(fontWeight: FontWeight.bold)),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+            padding: EdgeInsets.only(bottom: 20.0),
             child: Material(
               color: Colors.green,
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -117,14 +144,15 @@ class _PrefScreenState extends State<PrefScreen> {
                     'initPrefs': certIndex,
                     'user': loggedInUser.email
                   });
-                  Navigator.pushNamed(context, '0');
+                  Navigator.pushNamed(context, "0");
+                  Navigator.pushNamed(context, SplashScreen.id);
                   print(certIndex);
                 },
                 minWidth: 200.0,
                 height: 42.0,
-                child: Text(
-                  'Submit'
-                ),
+                child:Text('Submit',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
               ),
             ),
           ),
